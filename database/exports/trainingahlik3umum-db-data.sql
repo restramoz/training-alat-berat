@@ -1,0 +1,11 @@
+INSERT INTO users VALUES(1,'Administrator','restramozaik@gmail.com',NULL,'$2y$12$9FfUCNEtkEr28FQjRPf.OeTKGesfl3Y77V7HU0QDIRIeGFw5cqGTi',NULL,'2026-10-20 14:45:56','2026-10-20 14:45:56',1);
+INSERT INTO migrations VALUES(1,'0001_01_01_000000_create_users_table',1);
+INSERT INTO migrations VALUES(2,'0001_01_01_000001_create_cache_table',1);
+INSERT INTO migrations VALUES(3,'0001_01_01_000002_create_jobs_table',1);
+INSERT INTO migrations VALUES(4,'2026_10_15_000001_add_is_admin_to_users_table',1);
+INSERT INTO migrations VALUES(5,'2026_10_15_000002_create_articles_table',1);
+INSERT INTO migrations VALUES(6,'2026_10_15_115817_create_cities_table',1);
+INSERT INTO migrations VALUES(7,'2026_10_15_115912_create_kecamatans_table',1);
+INSERT INTO migrations VALUES(8,'2026_10_19_083346_add_user_id_to_jobs_table',1);
+INSERT INTO migrations VALUES(9,'2026_10_19_090335_drop_user_id_from_jobs_table',1);
+INSERT INTO migrations VALUES(10,'2026_10_19_090444_create_article_generation_jobs_table',1);

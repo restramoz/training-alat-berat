@@ -5,19 +5,41 @@
 ])
 
 @php
-    $mapService = resolve(\App\Services\RegionalMapService::class);
-    $coordinate = null;
-    $isDistrict = ! empty($districtSlug);
+    $regionalService = resolve(\App\Services\RegionalService::class);
 
-    if ($isDistrict) {
-        $coordinate = $mapService->getDistrictCoordinate((string) $citySlug, (string) $districtSlug);
-    } elseif ($citySlug) {
-        $coordinate = $mapService->getCityCoordinate((string) $citySlug);
+    $queryParts = [];
+    $resolvedName = null;
+    $level = 'unknown';
+
+    if (!empty($districtSlug) && !empty($citySlug)) {
+        // District level: find district with its city context
+        $district = $regionalService->findDistrict((string) $districtSlug, (string) $citySlug);
+        if ($district) {
+            $level = 'district';
+            $resolvedName = $district['name']; // District name
+            $queryParts[] = $district['name'];
+            $queryParts[] = $district['city_name']; // City name (e.g., "Kabupaten Malang" or "Kota Surabaya")
+            $queryParts[] = $district['province'];  // Province name
+        }
+    } elseif (!empty($citySlug)) {
+        // City level: find city with its province
+        $city = $regionalService->findCity((string) $citySlug);
+        if ($city) {
+            $level = 'city';
+            $resolvedName = $city['name'];
+            $queryParts[] = $city['name'];          // City name (e.g., "Kabupaten Malang")
+            $queryParts[] = $city['province'];      // Province name
+        }
     }
 
+    // Fallback to provided regionName if resolution failed
+    $displayName = $resolvedName ?? $regionName ?? 'Wilayah';
+    $queryParts[] = 'Indonesia';
+
     $mapId = 'regional-map-' . md5((string) $citySlug . '/' . (string) $districtSlug);
-    $label = $regionName ?: ($isDistrict ? 'Kecamatan' : 'Wilayah');
-    $zoomLevel = $isDistrict ? 13 : 11;
+    $mapsQuery = implode(', ', $queryParts);
+    $mapsEmbedUrl = 'https://maps.google.com/maps?q=' . urlencode($mapsQuery) . '&output=embed';
+    $mapsLinkUrl = 'https://www.google.com/maps/search/?api=1&query=' . urlencode($mapsQuery);
 @endphp
 
 <section class="py-12 bg-white border-b border-concrete-200" aria-labelledby="{{ $mapId }}-heading">
@@ -27,44 +49,50 @@
                 Peta Wilayah
             </span>
             <h2 id="{{ $mapId }}-heading" class="text-xl sm:text-2xl font-extrabold text-navy-950 mt-2">
-                Konteks Administratif {{ $label }}
+                Konteks Administratif {{ $displayName }}
             </h2>
             <p class="text-sm text-slate-700 mt-2 leading-relaxed">
-                Peta menampilkan konteks administratif wilayah berdasarkan koordinat geospasial terbuka. Titik pada peta menunjukkan pusat administratif wilayah dan <strong class="text-navy-900">bukan lokasi kantor atau tempat pelaksanaan training K3 terkonfirmasi</strong>.
+                Peta menampilkan konteks administratif <strong class="text-navy-900">{{ $displayName }}</strong>.
+                @if ($level === 'district')
+                    Kecamatan <strong class="text-navy-900">{{ $resolvedName }}</strong>, {{ $queryParts[1] ?? '' }}, {{ $queryParts[2] ?? '' }}.
+                @elseif ($level === 'city')
+                    {{ $resolvedName }}, {{ $queryParts[1] ?? '' }}.
+                @endif
+                Titik pada peta menunjukkan pusat administratif wilayah dan <strong class="text-navy-900">bukan lokasi kantor atau tempat pelaksanaan training K3 terkonfirmasi</strong>.
             </p>
         </div>
 
-        @if ($coordinate)
+        @if ($resolvedName)
             <div class="relative rounded-2xl overflow-hidden border border-concrete-200 shadow-sm bg-concrete-50">
-                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrxJpFTl5LMZjbxmL4GMjAFv0E=" crossorigin="">
-                <div id="{{ $mapId }}" class="h-80 sm:h-96 w-full z-0" role="application" aria-label="Peta interaktif {{ $label }}"></div>
-                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZk=" crossorigin="" defer></script>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        if (typeof L === 'undefined') return;
-                        var map = L.map(@json($mapId), {
-                            scrollWheelZoom: false
-                        }).setView([{{ $coordinate['lat'] }}, {{ $coordinate['lng'] }}], {{ $zoomLevel }});
-
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            maxZoom: 19,
-                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
-                        }).addTo(map);
-
-                        var marker = L.marker([{{ $coordinate['lat'] }}, {{ $coordinate['lng'] }}]).addTo(map);
-                        marker.bindPopup(
-                            '<div style="font-family: sans-serif; font-size: 13px; line-height: 1.4;">' +
-                            '<strong style="color: #142B4A;">' + @json($label) + '</strong><br>' +
-                            '<span style="color: #64748B; font-size: 11px;">Pusat Administratif Wilayah</span><br>' +
-                            '<span style="color: #D97A1A; font-size: 10px; font-weight: 600;">*Bukan lokasi venue pelatihan</span>' +
-                            '</div>'
-                        );
-                    });
-                </script>
+                <div class="aspect-video w-full">
+                    <iframe
+                        id="{{ $mapId }}"
+                        title="Peta {{ $displayName }}"
+                        src="{{ $mapsEmbedUrl }}"
+                        style="border:0; width:100%; height:100%;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        role="application"
+                        aria-label="Peta lokasi {{ $mapsQuery }}">
+                    </iframe>
+                </div>
             </div>
+
             <div class="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
-                <span>Sumber data: {{ $coordinate['source'] ?? 'Open Admin Data (CC BY 4.0)' }}</span>
-                <span>Koordinat: {{ number_format($coordinate['lat'], 4) }}, {{ number_format($coordinate['lng'], 4) }} (Perkiraan Centroid)</span>
+                <span>Query: {{ $mapsQuery }}</span>
+                <a
+                    href="{{ $mapsLinkUrl }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 text-teal-700 hover:text-teal-600 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded"
+                    aria-label="Buka {{ $mapsQuery }} di Google Maps di tab baru"
+                >
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    <span>Buka di Google Maps</span>
+                </a>
             </div>
         @else
             <div class="rounded-2xl border border-concrete-300 bg-concrete-50 p-6 text-sm text-slate-700" role="status">
@@ -73,9 +101,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <div>
-                        <p class="font-bold text-navy-950">Koordinat Belum Dikonfigurasi</p>
+                        <p class="font-bold text-navy-950">Data Wilayah Tidak Ditemukan</p>
                         <p class="mt-1 text-slate-600">
-                            Peta untuk {{ $label }} belum memiliki koordinat terverifikasi dalam basis data geospasial kami. Pelaksanaan pelatihan tatap muka, in-house, maupun daring untuk wilayah ini tetap dapat dikoordinasikan langsung melalui konsultasi resmi WhatsApp.
+                            Tidak dapat memetakan {{ $regionName ?? 'wilayah ini' }} ke data administratif BPS.
+                            Pelaksanaan pelatihan tetap dapat dikoordinasikan melalui konsultasi resmi WhatsApp.
                         </p>
                     </div>
                 </div>

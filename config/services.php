@@ -38,8 +38,13 @@ return [
     'whatsapp' => [
         'phone' => env('WHATSAPP_PHONE', ''),
         'default_message' => env('WHATSAPP_DEFAULT_MESSAGE', 'Halo, saya ingin konsultasi mengenai Training Ahli K3 Umum.'),
-        // Configure public business numbers per environment. Keep empty by default.
-        'callout_contacts' => [],
+        // Public business numbers for article callouts.
+        'callout_contacts' => [
+            '08118500177',
+            '081399810272',
+            '087894580806',
+            '087894580649',
+        ],
     ],
 
     // Ollama LLM service configuration for article generation

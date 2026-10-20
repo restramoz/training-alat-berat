@@ -18,7 +18,7 @@
     <meta property="og:url" content="{{ url()->current() }}">
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#142B4A">
+    <meta name="theme-color" content="#09637E">
 
     <!-- Styles & Scripts via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])

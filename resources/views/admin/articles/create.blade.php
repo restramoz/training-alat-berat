@@ -7,10 +7,10 @@
 <style>
     .jodit-container {
         border-radius: 10px !important;
-        border: 1px solid #CBD5E1 !important;
+        border: 1px solid #7AB2B2 !important;
     }
     .jodit-toolbar-button__button {
-        color: #0B192C !important;
+        color: #09637E !important;
     }
 </style>
 @endpush

@@ -148,7 +148,7 @@
             }
             .article-content .article-table-scroll th,
             .article-content .article-table-scroll td {
-                border: 1px solid #d1d5db;
+                border: 1px solid #a8d0d0;
                 padding: 8px 10px;
                 text-align: left;
                 vertical-align: top;
@@ -156,7 +156,7 @@
                 overflow-wrap: anywhere;
             }
             .article-content .article-table-scroll th {
-                background: #f3f4f6;
+                background: #ebf4f6;
                 font-weight: 700;
             }
         </style>

@@ -8,7 +8,7 @@
     <title>@yield('title', 'Admin Panel') — {{ config('app.name', 'Training Ahli K3 Umum') }}</title>
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#0B192C">
+    <meta name="theme-color" content="#09637E">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

@@ -6,7 +6,7 @@
 ])
 
 @php
-    $baseClasses = 'inline-flex items-center justify-center font-semibold rounded-lg transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-safety-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer text-center';
+    $baseClasses = 'inline-flex items-center justify-center font-semibold rounded-lg transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer text-center';
 
     $sizes = [
         'sm' => 'px-3.5 py-1.5 text-xs sm:text-sm gap-1.5 min-h-[38px]',
@@ -15,7 +15,7 @@
     ];
 
     $variants = [
-        'primary' => 'bg-safety-500 hover:bg-safety-400 text-navy-950 shadow-sm active:bg-safety-600 font-bold',
+        'primary' => 'bg-muted hover:bg-muted-light text-primary-darker shadow-sm active:bg-muted-dark font-bold',
         'secondary' => 'bg-navy-900 hover:bg-navy-800 text-white shadow-sm border border-navy-800 active:bg-navy-950',
         'outline' => 'bg-transparent hover:bg-concrete-100 text-navy-900 border border-concrete-300 active:bg-concrete-200',
         'white' => 'bg-white hover:bg-concrete-100 text-navy-950 shadow-sm active:bg-concrete-200 font-semibold',

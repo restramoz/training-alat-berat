@@ -2,23 +2,42 @@
 
 namespace Tests\Feature;
 
+use App\Support\WhatsApp;
 use Tests\TestCase;
 
 class ProgramPagesTest extends TestCase
 {
     /**
-     * Test that all 13 K3 Umum programs render successfully.
+     * The nine approved Training Alat Berat SIO programs, in canonical order.
      */
-    public function test_all_thirteen_services_render_successfully(): void
+    private const PROGRAM_SLUGS = [
+        'sio-excavator',
+        'sio-wheel-loader',
+        'sio-bulldozer',
+        'sio-compactor',
+        'sio-motor-grader',
+        'sio-rig-drilling',
+        'sio-telehandler',
+        'sio-vibro',
+        'sio-dump-truck',
+    ];
+
+    /**
+     * Test that all nine approved programs render successfully.
+     */
+    public function test_all_nine_services_render_successfully(): void
     {
         $programs = config('programs', []);
-        $this->assertCount(13, $programs, 'There must be exactly 13 approved K3 Umum programs.');
+
+        $this->assertCount(9, $programs, 'There must be exactly 9 approved Training Alat Berat SIO programs.');
+        $this->assertSame(self::PROGRAM_SLUGS, array_keys($programs));
 
         foreach ($programs as $slug => $data) {
             $url = route('program.show', $slug);
             $response = $this->get($url);
 
             $response->assertStatus(200);
+            $response->assertSee($data['title']);
             $response->assertSee($data['hero_heading']);
             $response->assertSee($data['hero_highlight']);
         }
@@ -29,38 +48,42 @@ class ProgramPagesTest extends TestCase
      */
     public function test_program_routes_have_expected_url_paths(): void
     {
-        $this->assertEquals('/layanan/training-ahli-k3-umum', parse_url(route('program.show', 'training-ahli-k3-umum'), PHP_URL_PATH));
-        $this->assertEquals('/program/training-ahli-k3-umum', parse_url(route('program.legacy.show', 'training-ahli-k3-umum'), PHP_URL_PATH));
+        foreach (self::PROGRAM_SLUGS as $slug) {
+            $this->assertEquals('/layanan/' . $slug, parse_url(route('program.show', $slug), PHP_URL_PATH));
+            $this->assertEquals('/program/' . $slug, parse_url(route('program.legacy.show', $slug), PHP_URL_PATH));
 
-        // Legacy route returns 200
-        $response = $this->get('/program/training-ahli-k3-umum');
-        $response->assertStatus(200);
-        $response->assertSee('Ahli K3 Umum');
+            $response = $this->get('/program/' . $slug);
+            $response->assertStatus(200);
+            $response->assertSee(config("programs.{$slug}.title"));
+        }
     }
 
     /**
-     * Test distinct meta titles and meta descriptions for programs.
+     * Test distinct meta titles and meta descriptions for all programs.
      */
     public function test_each_program_has_distinct_page_title_and_meta_description(): void
     {
-        $k3umum    = $this->get(route('program.show', 'training-ahli-k3-umum'));
-        $k3kimia   = $this->get(route('program.show', 'training-k3-kimia'));
-        $auditSmk3 = $this->get(route('program.show', 'jasa-audit-smk3'));
+        $programs = config('programs', []);
+        $metaTitles = [];
+        $metaDescriptions = [];
 
-        $k3umum->assertStatus(200);
-        $k3kimia->assertStatus(200);
-        $auditSmk3->assertStatus(200);
+        foreach ($programs as $slug => $program) {
+            $response = $this->get(route('program.show', $slug));
+            $response->assertStatus(200);
 
-        $k3umumConfig  = config('programs.training-ahli-k3-umum');
-        $k3kimiaConfig = config('programs.training-k3-kimia');
-        $auditConfig   = config('programs.jasa-audit-smk3');
+            $response->assertSee($program['meta_title']);
+            $response->assertSee($program['meta_description']);
 
-        $k3umum->assertSee($k3umumConfig['meta_title']);
-        $k3kimia->assertSee($k3kimiaConfig['meta_title']);
-        $auditSmk3->assertSee($auditConfig['meta_title']);
+            $this->assertNotSame('', trim($program['meta_title']));
+            $this->assertNotSame('', trim($program['meta_description']));
+            $this->assertStringContainsString('SIO', $program['meta_title']);
 
-        $this->assertNotEquals($k3umumConfig['meta_description'], $k3kimiaConfig['meta_description']);
-        $this->assertNotEquals($k3kimiaConfig['meta_description'], $auditConfig['meta_description']);
+            $metaTitles[] = $program['meta_title'];
+            $metaDescriptions[] = $program['meta_description'];
+        }
+
+        $this->assertCount(9, array_unique($metaTitles), 'Each program must have a distinct meta title.');
+        $this->assertCount(9, array_unique($metaDescriptions), 'Each program must have a distinct meta description.');
     }
 
     /**
@@ -68,7 +91,7 @@ class ProgramPagesTest extends TestCase
      */
     public function test_program_pages_include_accessible_breadcrumbs(): void
     {
-        $response = $this->get(route('program.show', 'training-ahli-k3-umum'));
+        $response = $this->get(route('program.show', 'sio-excavator'));
 
         $response->assertStatus(200);
         $response->assertSee('aria-label="Breadcrumb"', false);
@@ -79,17 +102,22 @@ class ProgramPagesTest extends TestCase
     }
 
     /**
-     * Test information card sections.
+     * Test information card sections including duration and investment.
      */
     public function test_program_pages_display_transparent_unverified_info_notice(): void
     {
-        $response = $this->get(route('program.show', 'training-ahli-k3-umum'));
+        foreach (config('programs', []) as $slug => $program) {
+            $this->assertArrayHasKey('durasi', $program['training_info']);
+            $this->assertArrayHasKey('investasi', $program['training_info']);
 
-        $response->assertStatus(200);
-        $response->assertSee('Informasi Penyelenggaraan &amp; Pelaksanaan', false);
-        $response->assertSee('Jadwal Pelatihan');
-        $response->assertSee('Durasi Program');
-        $response->assertSee('Investasi Biaya');
+            $response = $this->get(route('program.show', $slug));
+
+            $response->assertStatus(200);
+            $response->assertSee('Informasi Penyelenggaraan &amp; Pelaksanaan', false);
+            $response->assertSee('Jadwal Pelatihan');
+            $response->assertSee('Durasi Pembinaan');
+            $response->assertSee('Investasi Biaya');
+        }
     }
 
     /**
@@ -99,10 +127,14 @@ class ProgramPagesTest extends TestCase
     {
         config(['services.whatsapp.phone' => '089988776655']);
 
-        $response = $this->get(route('program.show', 'training-ahli-k3-umum'));
+        $response = $this->get(route('program.show', 'sio-excavator'));
         $response->assertStatus(200);
-        $expectedMsg = rawurlencode(config('programs.training-ahli-k3-umum.wa_message'));
-        $response->assertSee('https://wa.me/6289988776655?text=' . $expectedMsg, false);
+
+        $expectedMsg = rawurlencode(config('programs.sio-excavator.wa_message'));
+        $normalizedPhone = WhatsApp::normalizePhone(config('services.whatsapp.phone'));
+
+        $this->assertNotNull($normalizedPhone);
+        $response->assertSee('https://wa.me/' . $normalizedPhone . '?text=' . $expectedMsg, false);
     }
 
     /**
@@ -112,21 +144,25 @@ class ProgramPagesTest extends TestCase
     {
         config(['services.whatsapp.phone' => '']);
 
-        $response = $this->get(route('program.show', 'training-ahli-k3-umum'));
+        $response = $this->get(route('program.show', 'sio-excavator'));
         $response->assertStatus(200);
 
-        $expectedText = rawurlencode(config('programs.training-ahli-k3-umum.wa_message'));
+        $expectedText = rawurlencode(config('programs.sio-excavator.wa_message'));
         $response->assertSee('https://wa.me/?text=' . $expectedText, false);
     }
 
     /**
-     * Test related services links on detail page.
+     * Test related services links on every detail page.
      */
     public function test_each_program_page_links_to_other_programs(): void
     {
-        $response = $this->get(route('program.show', 'training-ahli-k3-umum'));
-        $response->assertStatus(200);
-        $response->assertSee(route('program.show', 'training-k3-konstruksi'), false);
+        foreach (self::PROGRAM_SLUGS as $slug) {
+            $otherSlug = $slug === 'sio-excavator' ? 'sio-wheel-loader' : 'sio-excavator';
+
+            $response = $this->get(route('program.show', $slug));
+            $response->assertStatus(200);
+            $response->assertSee(route('program.show', $otherSlug), false);
+        }
     }
 
     /**
@@ -134,20 +170,20 @@ class ProgramPagesTest extends TestCase
      */
     public function test_program_pages_have_responsive_faq_section(): void
     {
-        $response = $this->get(route('program.show', 'training-ahli-k3-umum'));
+        $response = $this->get(route('program.show', 'sio-excavator'));
 
         $response->assertStatus(200);
         $response->assertSee('<details', false);
         $response->assertSee('<summary', false);
-        $response->assertSee('Pertanyaan Umum Seputar');
+        $response->assertSee('Pertanyaan Umum Seputar ' . config('programs.sio-excavator.title'));
     }
 
     /**
-     * Test safety rule: no fabricated claims or non-K3 contamination.
+     * Test safety rule: no fabricated claims or non-alat-berat contamination.
      */
     public function test_program_pages_have_no_invented_claims(): void
     {
-        foreach (['training-ahli-k3-umum', 'training-k3-konstruksi', 'jasa-audit-smk3'] as $slug) {
+        foreach (self::PROGRAM_SLUGS as $slug) {
             $response = $this->get(route('program.show', $slug));
             $response->assertStatus(200);
 
@@ -155,7 +191,10 @@ class ProgramPagesTest extends TestCase
             $response->assertDontSee('100% garansi lulus');
             $response->assertDontSee('pasti lulus');
             $response->assertDontSee('tanpa tes');
-            // No B3/environmental contamination on K3 Umum pages
+            $response->assertDontSee('Jaminan Lulus 100%');
+
+            // No old K3 Umum or B3/environmental contamination
+            $response->assertDontSee('Training Ahli K3 Umum');
             $response->assertDontSee('Pengelolaan Limbah B3');
             $response->assertDontSee('FESTRONIK');
             $response->assertDontSee('air limbah industri');
@@ -163,15 +202,16 @@ class ProgramPagesTest extends TestCase
     }
 
     /**
-     * Test homepage and footer link to K3 Umum programs.
+     * Test homepage and footer link to all nine Training Alat Berat programs.
      */
     public function test_homepage_and_footer_link_to_programs(): void
     {
         $home = $this->get(route('home'));
 
         $home->assertStatus(200);
-        $home->assertSee(route('program.show', 'training-ahli-k3-umum'), false);
-        $home->assertSee(route('program.show', 'training-k3-konstruksi'), false);
-        $home->assertSee(route('program.show', 'jasa-audit-smk3'), false);
+
+        foreach (self::PROGRAM_SLUGS as $slug) {
+            $home->assertSee(route('program.show', $slug), false);
+        }
     }
 }

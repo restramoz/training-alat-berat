@@ -46,7 +46,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mb-6">
             <span class="text-xs font-bold uppercase tracking-wider text-teal-700 bg-teal-soft px-3 py-1 rounded-full border border-teal-500/20">
-                Peta Wilayah
+                Peta Wilayah Operasional
             </span>
             <h2 id="{{ $mapId }}-heading" class="text-xl sm:text-2xl font-extrabold text-navy-950 mt-2">
                 Konteks Administratif {{ $displayName }}
@@ -58,7 +58,7 @@
                 @elseif ($level === 'city')
                     {{ $resolvedName }}, {{ $queryParts[1] ?? '' }}.
                 @endif
-                Titik pada peta menunjukkan pusat administratif wilayah dan <strong class="text-navy-900">bukan lokasi kantor atau tempat pelaksanaan training K3 terkonfirmasi</strong>.
+                Titik pada peta menunjukkan pusat administratif wilayah operasional dan <strong class="text-navy-900">bukan lokasi kantor atau training ground alat berat terkonfirmasi</strong>.
             </p>
         </div>
 
@@ -104,7 +104,7 @@
                         <p class="font-bold text-navy-950">Data Wilayah Tidak Ditemukan</p>
                         <p class="mt-1 text-slate-600">
                             Tidak dapat memetakan {{ $regionName ?? 'wilayah ini' }} ke data administratif BPS.
-                            Pelaksanaan pelatihan tetap dapat dikoordinasikan melalui konsultasi resmi WhatsApp.
+                            Pelaksanaan pelatihan operator alat berat tetap dapat dikoordinasikan melalui konsultasi resmi WhatsApp.
                         </p>
                     </div>
                 </div>

@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Login Administrator — Training Ahli K3 Umum')
-@section('meta_description', 'Masuk ke panel manajemen administrator Training Ahli K3 Umum.')
+@section('title', 'Login Administrator — Training Alat Berat')
+@section('meta_description', 'Masuk ke panel manajemen administrator Training Alat Berat.')
 
 @section('content')
 <div class="min-h-[75vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-concrete-50">
     <div class="max-w-md w-full space-y-8 bg-white p-8 sm:p-10 rounded-2xl border border-concrete-200 shadow-sm">
         <div class="text-center space-y-2">
-            <div class="inline-flex w-12 h-12 rounded-xl bg-navy-950 text-emerald-400 items-center justify-center shadow-inner mb-2 border border-navy-800">
+            <div class="inline-flex w-12 h-12 rounded-xl bg-navy-950 text-teal-400 items-center justify-center shadow-inner mb-2 border border-navy-800">
                 <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
                     <path d="M12 8v4"/>
@@ -17,8 +17,8 @@
             <h1 class="text-2xl font-extrabold text-navy-950 tracking-tight">
                 Admin Panel Login
             </h1>
-            <p class="text-xs text-concrete-500">
-                Akses terbatas untuk administrator Training Ahli K3 Umum
+            <p class="text-xs text-slate-500">
+                Akses terbatas untuk administrator Training Alat Berat
             </p>
         </div>
 
@@ -49,7 +49,7 @@
                     required
                     value="{{ old('email') }}"
                     placeholder="admin@example.com"
-                    class="w-full px-4 py-2.5 rounded-lg border border-concrete-300 text-sm text-navy-950 bg-concrete-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-safety-500 focus:border-transparent transition"
+                    class="w-full px-4 py-2.5 rounded-lg border border-concrete-300 text-sm text-navy-950 bg-concrete-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
                 >
             </div>
 
@@ -64,16 +64,16 @@
                     autocomplete="current-password"
                     required
                     placeholder="••••••••"
-                    class="w-full px-4 py-2.5 rounded-lg border border-concrete-300 text-sm text-navy-950 bg-concrete-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-safety-500 focus:border-transparent transition"
+                    class="w-full px-4 py-2.5 rounded-lg border border-concrete-300 text-sm text-navy-950 bg-concrete-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
                 >
             </div>
 
             <div class="flex items-center justify-between text-xs">
-                <label class="flex items-center gap-2 cursor-pointer text-concrete-600">
+                <label class="flex items-center gap-2 cursor-pointer text-slate-700">
                     <input
                         type="checkbox"
                         name="remember"
-                        class="rounded border-concrete-300 text-safety-500 focus:ring-safety-500"
+                        class="rounded border-concrete-300 text-teal-700 focus:ring-teal-500"
                     >
                     <span>Ingat sesi saya</span>
                 </label>
@@ -82,7 +82,7 @@
             <div>
                 <button
                     type="submit"
-                    class="w-full py-3 px-4 rounded-lg bg-safety-500 hover:bg-safety-600 text-navy-950 font-extrabold text-sm shadow-sm transition flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-safety-500 focus-visible:ring-offset-2"
+                    class="w-full py-3 px-4 rounded-lg bg-muted hover:bg-muted-dark text-navy-950 font-extrabold text-sm shadow-sm transition flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
                 >
                     Masuk ke Admin Panel
                 </button>
@@ -90,7 +90,7 @@
         </form>
 
         <div class="text-center pt-3 border-t border-concrete-200">
-            <a href="{{ route('home') }}" class="text-xs text-concrete-500 hover:text-safety-600 transition">
+            <a href="{{ route('home') }}" class="text-xs text-slate-500 hover:text-teal-700 transition">
                 &larr; Kembali ke Beranda
             </a>
         </div>

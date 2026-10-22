@@ -1,11 +1,19 @@
-# Training Ahli K3 Umum — Project Instructions
+# Training Alat Berat — Project Instructions
 
 ## Project Scope
-Build a standalone Laravel 13 website for Training Ahli K3 Umum.
+Build a standalone Laravel 13 website for Training Alat Berat.
 Target domain: to be confirmed before deployment.
 Target runtime: PHP 8.3 compatible (current local runtime is PHP 8.5.4).
 Programs:
-- Training Ahli K3 Umum (draft content pending regulatory verification)
+- SIO Excavator
+- SIO Wheel Loader
+- SIO Bulldozer
+- SIO Compactor
+- SIO Motor Grader
+- SIO Rig Drilling
+- SIO Telehandler
+- SIO Vibro
+- SIO Dump Truck
 
 ## Design
 - Mobile-first, responsive, conversion-focused.
@@ -23,7 +31,7 @@ Programs:
 - Do not invent accreditation, certification authority, prices,
   durations, prerequisites, curriculum, or partnerships.
 - Verify regulatory claims against authoritative sources before publishing.
-- Keep content specific to Ahli K3 Umum; do not copy B3 content verbatim.
+- Keep content specific to Training Alat Berat and the nine approved SIO programs; do not copy B3 content verbatim.
 - Apply login rate limiting and protect admin routes.
 - Run relevant tests and report actual results.
 - Keep changes minimal, complete, and maintainable.

@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@hasSection('title')@yield('title') — @endif{{ config('app.name', 'Training Ahli K3 Umum') }}</title>
-    <meta name="description" content="@yield('meta_description', 'Portal resmi Training Ahli K3 Umum. Informasi program pembinaan kompetensi K3, spesialisasi K3, dan jasa konsultansi SMK3 PP 50/2012.')">
+    <title>@hasSection('title')@yield('title') — @endif{{ config('app.name', 'Training Alat Berat') }}</title>
+    <meta name="description" content="@yield('meta_description', 'Portal resmi Training Alat Berat dan Sertifikasi SIO Kemnaker RI. Informasi pembinaan operator excavator, loader, bulldozer, compactor, grader, rig drilling, telehandler, vibro, dan dump truck.')">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ url()->current() }}">
 
     <!-- Open Graph / Meta -->
-    <meta property="og:title" content="@hasSection('title')@yield('title') — @endif{{ config('app.name', 'Training Ahli K3 Umum') }}">
-    <meta property="og:description" content="@yield('meta_description', 'Layanan pelatihan pembinaan kompetensi K3 dan jasa konsultansi Sistem Manajemen K3 (SMK3) di Indonesia.')">
+    <meta property="og:title" content="@hasSection('title')@yield('title') — @endif{{ config('app.name', 'Training Alat Berat') }}">
+    <meta property="og:description" content="@yield('meta_description', 'Layanan pembinaan kompetensi operator alat berat dan sertifikasi SIO resmi Kemnaker RI di seluruh Indonesia.')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
 
@@ -30,9 +30,9 @@
     @stack('schema')
     @stack('styles')
 </head>
-<body class="min-h-full flex flex-col bg-concrete-50 text-slate-900 selection:bg-orange-500 selection:text-white">
+<body class="min-h-full flex flex-col bg-concrete-50 text-slate-900 selection:bg-teal-400 selection:text-navy-950">
     <!-- Accessible Skip Link -->
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 bg-orange-500 text-white font-bold px-4 py-2 rounded-md shadow-lg outline-none ring-2 ring-navy-950">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 bg-teal-400 text-navy-950 font-bold px-4 py-2 rounded-md shadow-lg outline-none ring-2 ring-navy-950">
         Lewati ke konten utama
     </a>
 

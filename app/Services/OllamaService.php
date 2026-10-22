@@ -20,34 +20,46 @@ class OllamaService
     protected int $timeout;
 
     /**
-     * Standard Sertifikasi & Jasa Training Ahli K3 Umum core topics.
+     * Standard Training Alat Berat & 9 SIO Categories core topics.
      *
      * @var array<int, array{name: string, focus: string}>
      */
     public const CORE_TOPICS = [
         [
-            'name' => 'Pengenalan Keselamatan dan Kesehatan Kerja (K3) di Tempat Kerja',
-            'focus' => 'Konsep dasar K3, identifikasi bahaya, penilaian risiko, dan pengendalian risiko umum di tempat kerja',
+            'name' => 'SIO Excavator — Teknik Penggalian, Pemuatan, dan Keselamatan Lereng',
+            'focus' => 'Prosedur pengoperasian aman excavator, teknik penggalian (excavation), pemuatan (loading) material, stabilitas lereng, dan pencegahan bahaya swing radius sesuai Permenaker No. 8/2020',
         ],
         [
-            'name' => 'Manajemen Risiko dan Sistem Manajemen K3',
-            'focus' => 'Perencanaan, implementasi, pemantauan, dan evaluasi sistem manajemen K3 secara umum',
+            'name' => 'SIO Wheel Loader — Penanganan Material Curah dan Manuver Stockpile',
+            'focus' => 'Material handling curah, teknik pemuatan bucket V-shape, pengendalian kestabilan articulated frame saat membawa beban, dan keselamatan di area kerja',
         ],
         [
-            'name' => 'Alat Pelindung Diri dan Keselamatan Kerja Dasar',
-            'focus' => 'Pemilihan, penggunaan, pemeliharaan, dan batasan alat pelindung diri yang umum',
+            'name' => 'SIO Bulldozer — Earthmoving, Pendorongan Tanah, dan Ripping',
+            'focus' => 'Teknik pendorongan (pushing), perataan tanah (spreading), penggaruan (ripping), pengendalian traksi crawler di lereng curam, dan keselamatan kabin ROPS/FOPS',
         ],
         [
-            'name' => 'Tanggap Darurat, Evakuasi, dan P3K di Tempat Kerja',
-            'focus' => 'Prosedur tanggap darurat, evakuasi, komunikasi krisis, dan pertolongan pertama yang umum',
+            'name' => 'SIO Compactor — Pemadatan Tanah Dasar dan Ground Preparation',
+            'focus' => 'Prosedur pemadatan tanah (compaction), penentuan pola lintasan (rolling passes), pencegahan bahaya amblas di tepi lereng, dan kestabilan roda drum',
         ],
         [
-            'name' => 'Inspeksi, Audit, dan Peningkatan Berkelanjutan K3',
-            'focus' => 'Inspeksi rutin, audit internal, tindak lanjut temuan, dan peningkatan berkelanjutan',
+            'name' => 'SIO Motor Grader — Perataan Presisi, Crowning, dan Ditching',
+            'focus' => 'Teknik grading presisi, leveling permukaan tanah dan agregat, pembentukan parit (ditching), pengaturan sudut moldboard blade, dan pemeliharaan jalan angkut tambang',
         ],
         [
-            'name' => 'Komunikasi, Pelaporan, dan Budaya K3',
-            'focus' => 'Pelaporan insiden, komunikasi keselamatan, dan pembentukan budaya kerja yang aman',
+            'name' => 'SIO Rig Drilling — Keselamatan Pengeboran Fondasi dan Eksplorasi',
+            'focus' => 'Pengoperasian mesin bor fondasi/bored pile, kestabilan penegakan menara (mast), manajemen torsi putaran, dan pencegahan bahaya keruntuhan lubang bor',
+        ],
+        [
+            'name' => 'SIO Telehandler — Kapasitas Angkat, Load Chart, dan Stabilitas Boom',
+            'focus' => 'Pengoperasian telescopic handler, pembacaan grafik kapasitas beban (load chart), batas jangkauan boom, penggunaan stabilizer/outrigger, dan sistem keselamatan LMI',
+        ],
+        [
+            'name' => 'SIO Vibro — Prosedur Pemadatan Getar dan Frekuensi Resonansi',
+            'focus' => 'Teknik pemadatan dinamis vibratory roller, pengaturan frekuensi dan amplitudo getaran, pencegahan kerusakan struktur sekitar, dan keselamatan operator',
+        ],
+        [
+            'name' => 'SIO Dump Truck — Manuver Hauling, Prosedur Tipping, dan Blind Spot',
+            'focus' => 'Pengangkutan material tambang/konstruksi, teknik pengereman retarder di turunan, prosedur aman tipping/unloading di area disposal, dan manajemen blind spot',
         ],
     ];
 
@@ -109,8 +121,8 @@ class OllamaService
         $count = count($existingTitles) + 1;
 
         return [
-            'topic' => "Strategi Kepatuhan K3 & Penerapan SMK3 di {$cityName} (Bagian {$count})",
-            'focus' => 'Penerapan SMK3 PP 50/2012, pembentukan P2K3, identifikasi bahaya HIRADC, investigasi insiden, dan pemenuhan regulasi K3 tempat kerja',
+            'topic' => "Panduan Keselamatan Operasional Alat Berat & Sertifikasi SIO di {$cityName} (Bagian {$count})",
+            'focus' => 'Kepatuhan Permenaker No. 8/2020, persiapan uji kompetensi operator pesawat angkat dan angkut, pemeriksaan harian P2H, dan pencegahan kecelakaan kerja alat berat',
         ];
     }
 
@@ -163,17 +175,17 @@ class OllamaService
         $locationContext = $districtName ? "Kecamatan {$districtName}, {$cityName}" : $cityName;
 
         $systemPrompt = <<<PROMPT
-Anda adalah konsultan dan instruktur K3 (Keselamatan dan Kesehatan Kerja) Indonesia.
-Tugas Anda adalah menulis artikel edukatif dan otoritatif dalam Bahasa Indonesia formal mengenai Training Ahli K3 Umum. Struktur artikel harus mencakup: Pembuka (intro), Silabus, Materi, Isi Konten, dan Penutup (conclusion).
+Anda adalah konsultan dan instruktur keselamatan operasional alat berat (K3 Pesawat Angkat dan Pesawat Angkut) Indonesia.
+Tugas Anda adalah menulis artikel edukatif dan otoritatif dalam Bahasa Indonesia formal mengenai Training Alat Berat dan Sertifikasi SIO (Surat Izin Alat / Lisensi K3 Operator). Struktur artikel harus mencakup: Pembuka (intro), Silabus & Kompetensi Operator, Materi Keselamatan Operasional, Pembahasan Teknis Alat Berat, dan Penutup (conclusion).
 
 ATURAN KUALITAS & GAYA PENULISAN:
-1. Nada bahasa: Profesional, lugas, mengalir alami, berbobot untuk pengambil keputusan dan praktisi K3.
+1. Nada bahasa: Profesional, lugas, mengalir alami, berbobot untuk pengambil keputusan proyek, kontraktor, dan praktisi alat berat.
 2. Dilarang menggunakan filler AI klise seperti "Di era modern saat ini", "Tak dapat dipungkiri", atau kalimat berulang.
-3. Rujuk regulasi K3 hanya jika Anda yakin terhadap sumber resminya. Jangan mengarang nomor regulasi, pasal, jadwal tetap, biaya fiktif, alamat kantor palsu, atau klaim akreditasi/otorisasi.
+3. Rujuk regulasi K3 pesawat angkat & angkut hanya jika Anda yakin terhadap sumber resminya (UU No. 1/1970, Permenaker No. 8/2020 tentang K3 Pesawat Angkat dan Angkut, atau Permenaker No. 38/2016). Bedakan antara pelatihan pembinaan kompetensi, asesmen sertifikasi, dan penerbitan SIO/lisensi K3. Jangan mengklaim kelulusan atau penerbitan SIO instan secara sepihak.
 4. Jangan mengarang jadwal tetap, biaya fiktif, alamat kantor palsu, atau klaim akreditasi sepihak. Arahkan konsultasi resmi melalui WhatsApp.
 5. Gunakan tag HTML semantik: <h2>, <h3>, <p>, <ul>, <ol>, <li>, <strong>, <blockquote>, <table><thead><tr><th>...</th></tr></thead><tbody><tr><td>...</td></tr></tbody></table>.
 6. Panjang target: Sekitar {$wordCount} kata (antara 6.000 hingga 9.000 kata).
-7. Buat image_brief terpisah yang siap digunakan oleh desainer di Google Flow untuk menghasilkan gambar fotografi realistis beresolusi tinggi TANPA teks di gambar.
+7. Buat image_brief terpisah yang siap digunakan oleh desainer untuk menghasilkan gambar fotografi realistis beresolusi tinggi TANPA teks di gambar.
 
 OUTPUT WAJIB:
 Kembalikan HANYA dokumen JSON murni tanpa pembungkus markdown ```json ```.
@@ -183,15 +195,15 @@ Format skema JSON yang wajib dipatuhi:
   "slug": "slug-url-ramah-seo",
   "excerpt": "Ringkasan eksekutif 2-3 kalimat mengenai intisari artikel.",
   "content": "<p>Isi artikel lengkap dalam HTML semantik...</p>",
-  "seo_title": "SEO Title Max 60 Karakter | Training Ahli K3 Umum",
+  "seo_title": "SEO Title Max 60 Karakter | Training Alat Berat",
   "meta_description": "Meta description persuasif max 155 karakter.",
   "suggested_faqs": [
     {"q": "Pertanyaan 1...", "a": "Jawaban ringkas 1..."},
     {"q": "Pertanyaan 2...", "a": "Jawaban ringkas 2..."}
   ],
   "image_brief": {
-    "concept": "Konsep visual foto keselamatan kerja industri atau pelatihan K3 dalam Bahasa Indonesia",
-    "english_prompt": "Detailed descriptive photo prompt in English for Google Flow: realistic photography, occupational safety and health briefing in modern Indonesian manufacturing plant or industrial facility, safety officer wearing high-visibility vest and hardhat conducting safety inspection with clipboard, industrial background, realistic lighting, sharp focus, no text overlays, 8k",
+    "concept": "Konsep visual foto keselamatan operasional alat berat di area proyek konstruksi atau pertambangan dalam Bahasa Indonesia",
+    "english_prompt": "Detailed descriptive photo prompt in English: realistic photography, heavy equipment operator wearing high-visibility vest and hardhat operating modern machinery at Indonesian construction, mining, or infrastructure project site, realistic lighting, sharp focus, no text overlays, 8k",
     "aspect_ratio": "16:9",
     "recommended_alt": "Alt text ramah SEO dalam Bahasa Indonesia"
   }
@@ -199,7 +211,7 @@ Format skema JSON yang wajib dipatuhi:
 PROMPT;
 
         $userPrompt = <<<PROMPT
-Silakan buat artikel Training Ahli K3 Umum lengkap dengan rincian berikut:
+Silakan buat artikel Training Alat Berat dan SIO lengkap dengan rincian berikut:
 - Topik Artikel: {$topic}
 - Fokus Materi: {$focus}
 - Lokasi Target: {$locationContext}
@@ -371,10 +383,10 @@ PROMPT;
                 $imageBrief = [];
             }
 
-            $concept = $imageBrief['concept'] ?? "Penerapan kompetensi K3 umum di {$cityName}";
-            $englishPrompt = $imageBrief['english_prompt'] ?? 'Professional documentary photograph of a workplace safety training environment in Indonesia, safety officers and workers using personal protective equipment, realistic industrial environment, realistic lighting, 8k, no text';
+            $concept = $imageBrief['concept'] ?? "Penerapan kompetensi operator alat berat dan SIO di {$cityName}";
+            $englishPrompt = $imageBrief['english_prompt'] ?? 'Professional documentary photograph of heavy equipment operations in Indonesia, certified operator with personal protective equipment, construction or mining site, realistic industrial lighting, 8k, no text';
             $aspectRatio = $imageBrief['aspect_ratio'] ?? '16:9';
-            $recommendedAlt = $imageBrief['recommended_alt'] ?? "Pelatihan & Pengelolaan Ahli K3 Umum di {$cityName}";
+            $recommendedAlt = $imageBrief['recommended_alt'] ?? "Pelatihan & Pengurusan SIO Alat Berat di {$cityName}";
 
             $rawArticleContent = $this->sanitizeContent((string) ($decoded['content'] ?? ''));
 
@@ -384,7 +396,7 @@ PROMPT;
                 'slug' => ! empty($decoded['slug']) ? Str::slug($decoded['slug']) : Str::slug($decoded['title']),
                 'excerpt' => (string) ($decoded['excerpt'] ?? Str::limit(strip_tags($rawArticleContent), 180)),
                 'content' => $rawArticleContent,
-                'seo_title' => (string) ($decoded['seo_title'] ?? Str::limit($decoded['title'].' | Training Ahli K3 Umum', 60)),
+                'seo_title' => (string) ($decoded['seo_title'] ?? Str::limit($decoded['title'].' | Training Alat Berat', 60)),
                 'meta_description' => (string) ($decoded['meta_description'] ?? Str::limit($decoded['excerpt'] ?? '', 155)),
                 'suggested_faqs' => is_array($decoded['suggested_faqs'] ?? null) ? $decoded['suggested_faqs'] : [],
                 'image_brief' => [
@@ -418,14 +430,14 @@ PROMPT;
             'slug' => Str::slug($fallbackTopic),
             'excerpt' => Str::limit(strip_tags($fallbackHtml), 180),
             'content' => $fallbackHtml,
-            'seo_title' => Str::limit("{$fallbackTopic} | Training Ahli K3 Umum", 60),
-            'meta_description' => Str::limit("Panduan {$fallbackTopic} untuk kompetensi K3 umum di {$cityName}.", 155),
+            'seo_title' => Str::limit("{$fallbackTopic} | Training Alat Berat", 60),
+            'meta_description' => Str::limit("Panduan {$fallbackTopic} untuk kompetensi operator alat berat dan SIO di {$cityName}.", 155),
             'suggested_faqs' => [],
             'image_brief' => [
-                'concept' => "Kompetensi K3 umum di {$cityName}",
-                'english_prompt' => 'Professional photograph of occupational health and safety inspection or briefing in modern industrial facility in Indonesia, realistic lighting, no text',
+                'concept' => "Kompetensi operator alat berat di {$cityName}",
+                'english_prompt' => 'Professional photograph of heavy equipment operations or safety inspection at Indonesian construction or mining site, realistic lighting, no text',
                 'aspect_ratio' => '16:9',
-                'recommended_alt' => "Training Ahli K3 Umum - {$fallbackTopic}",
+                'recommended_alt' => "Training Alat Berat - {$fallbackTopic}",
             ],
         ];
     }
@@ -479,14 +491,14 @@ PROMPT;
         // Insert callouts in reverse order so offsets remain valid.
         foreach (array_reverse($insertPoints, true) as $idx => $position) {
             $phone = $selected[$idx];
-            $message = "Halo, saya ingin konsultasi mengenai Training Ahli K3 Umum untuk wilayah {$cityName}.";
+            $message = "Halo, saya ingin konsultasi mengenai Training Alat Berat dan SIO untuk wilayah {$cityName}.";
             $waUrl = WhatsApp::url($message, $phone);
             $ctaHtml = '<div class="my-6 p-4 rounded-xl bg-concrete-100 border border-teal-300 flex flex-col sm:flex-row items-center justify-between gap-4 not-prose">'
                 .'<div>'
-                .'<div class="text-xs font-bold uppercase tracking-wider text-teal-700">Konsultasi Training Ahli K3 Umum '.$cityName.'</div>'
-                .'<div class="text-sm font-semibold text-navy-950">Butuh informasi program pelatihan K3?</div>'
+                .'<div class="text-xs font-bold uppercase tracking-wider text-teal-700">Konsultasi Training Alat Berat & SIO '.$cityName.'</div>'
+                .'<div class="text-sm font-semibold text-navy-950">Butuh informasi pembinaan operator & sertifikasi SIO?</div>'
                 .'</div>'
-                .'<a href="'.$waUrl.'" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs transition shrink-0">'
+                .'<a href="'.$waUrl.'" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-muted hover:bg-muted-dark text-navy-950 font-semibold text-xs transition shrink-0">'
                 .'<span>Konsultasi WhatsApp</span> &rarr;'
                 .'</a>'
                 .'</div>';
@@ -509,8 +521,8 @@ PROMPT;
     protected function requestContinuation(string $existingContent, int $targetWords, string $cityName): array
     {
         // Build a simple continuation prompt.
-        $systemPrompt = "Anda adalah editor artikel Training Ahli K3 Umum berbahasa Indonesia. Lanjutkan artikel yang diberikan dengan konten baru sekitar {$targetWords} kata. Jangan mengulang paragraf atau judul yang sudah ada. Output HANYA fragmen HTML valid menggunakan tag semantik seperti <h2>, <h3>, <p>, <ul>, <ol>, <li>, <strong>, dan <table> bila relevan. Jangan keluarkan JSON, markdown fence, komentar, atau metadata. Jika tidak dapat memenuhi seluruh target, tetap keluarkan fragmen HTML valid yang bermakna.";
-        $userPrompt = "Konten artikel yang sudah ada (gunakan sebagai konteks, jangan salin ulang):\n{$existingContent}\n\nTambahkan bagian lanjutan yang relevan dan substantif sebanyak kira-kira {$targetWords} kata. Fokus pada informasi baru, contoh penerapan lapangan, prosedur, risiko, pengendalian, dan kepatuhan regulasi yang relevan. Kembalikan hanya fragmen HTML tambahan, bukan artikel lengkap.";
+        $systemPrompt = "Anda adalah editor artikel Training Alat Berat dan SIO berbahasa Indonesia. Lanjutkan artikel yang diberikan dengan konten baru sekitar {$targetWords} kata. Jangan mengulang paragraf atau judul yang sudah ada. Output HANYA fragmen HTML valid menggunakan tag semantik seperti <h2>, <h3>, <p>, <ul>, <ol>, <li>, <strong>, dan <table> bila relevan. Jangan keluarkan JSON, markdown fence, komentar, atau metadata. Jika tidak dapat memenuhi seluruh target, tetap keluarkan fragmen HTML valid yang bermakna.";
+        $userPrompt = "Konten artikel yang sudah ada (gunakan sebagai konteks, jangan salin ulang):\n{$existingContent}\n\nTambahkan bagian lanjutan yang relevan dan substantif sebanyak kira-kira {$targetWords} kata. Fokus pada informasi baru, prosedur pengoperasian alat berat, keselamatan kerja, pencegahan bahaya rollover/blind spot, dan pemenuhan regulasi SIO Kemnaker RI. Kembalikan hanya fragmen HTML tambahan, bukan artikel lengkap.";
 
         try {
             $endpoint = $this->getChatEndpoint();

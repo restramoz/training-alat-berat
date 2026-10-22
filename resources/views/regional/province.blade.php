@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Training Ahli K3 Umum & Layanan K3 Provinsi ' . $province['name'] . ' — Konsultasi Resmi')
-@section('meta_description', 'Informasi draft Training Ahli K3 Umum untuk wilayah Provinsi ' . $province['name'] . '.')
+@section('title', 'Training Alat Berat & Layanan SIO Provinsi ' . $province['name'] . ' — Konsultasi Resmi')
+@section('meta_description', 'Informasi pembinaan Training Alat Berat dan sertifikasi SIO operator untuk wilayah Provinsi ' . $province['name'] . '.')
 @section('wa_message', $waMessage)
 
 @section('content')
@@ -24,59 +24,59 @@
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
             <div class="max-w-3xl">
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-navy-900 border border-teal-500/40 text-teal-400 text-xs sm:text-sm font-semibold mb-6">
-                    <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
-                    Layanan Informasi &amp; Pembinaan K3
+                    <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
+                    Layanan Informasi &amp; Pembinaan Operator SIO
                 </div>
                 <h1 id="prov-hero-heading" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight uppercase">
-                    Training Ahli K3 Umum &amp; Layanan K3<br><span class="text-orange-400">Provinsi {{ $province['name'] }}</span>
+                    Training Alat Berat &amp; Layanan SIO<br><span class="text-teal-400">Provinsi {{ $province['name'] }}</span>
                 </h1>
                 <p class="mt-6 text-base sm:text-lg text-concrete-300 leading-relaxed">
-                    Pusat informasi konsultasi pembinaan kompetensi K3 dan jasa konsultansi penerapan SMK3 (PP 50/2012) untuk industri, fasilitas layanan, dan badan usaha di <strong class="text-white">Provinsi {{ $province['name'] }}</strong>.
+                    Pusat koordinasi informasi pembinaan kompetensi operator alat berat dan persiapan uji sertifikasi Lisensi K3 / SIO (Permenaker No. 8/2020) untuk kontraktor, perusahaan tambang, dan industri di <strong class="text-white">Provinsi {{ $province['name'] }}</strong>.
                 </p>
                 <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                    <x-wa-cta variant="primary" size="lg" :message="$waMessage" label="Konsultasi Wilayah {{ $province['name'] }}" class="bg-orange-500 hover:bg-orange-600 text-white font-bold shadow-lg" />
+                    <x-wa-cta variant="primary" size="lg" :message="$waMessage" label="Konsultasi Wilayah {{ $province['name'] }}" class="font-bold shadow-lg" />
                 </div>
                 <div class="mt-10 pt-8 border-t border-navy-800/80 grid grid-cols-2 sm:grid-cols-4 gap-6">
-                    <div><div class="text-xs text-concrete-400 uppercase tracking-wider">Pulau</div><div class="text-lg font-extrabold text-teal-400 mt-0.5">{{ $province['island'] }}</div></div>
-                    <div><div class="text-xs text-concrete-400 uppercase tracking-wider">Kab/Kota</div><div class="text-lg font-extrabold text-white mt-0.5">{{ $province['total_cities'] }}</div></div>
-                    <div><div class="text-xs text-concrete-400 uppercase tracking-wider">Layanan</div><div class="text-lg font-extrabold text-teal-400 mt-0.5">{{ count($programs) }} Program</div></div>
-                    <div><div class="text-xs text-concrete-400 uppercase tracking-wider">Regulasi</div><div class="text-lg font-extrabold text-white mt-0.5">UU 1/1970</div></div>
+                    <div><div class="text-xs text-concrete-300 uppercase tracking-wider font-semibold">Pulau</div><div class="text-lg font-extrabold text-white mt-0.5">{{ $province['island'] }}</div></div>
+                    <div><div class="text-xs text-concrete-300 uppercase tracking-wider font-semibold">Kab/Kota</div><div class="text-lg font-extrabold text-white mt-0.5">{{ $province['total_cities'] }}</div></div>
+                    <div><div class="text-xs text-concrete-300 uppercase tracking-wider font-semibold">Layanan SIO</div><div class="text-lg font-extrabold text-teal-400 mt-0.5">{{ count($programs) }} Kategori</div></div>
+                    <div><div class="text-xs text-concrete-300 uppercase tracking-wider font-semibold">Regulasi</div><div class="text-lg font-extrabold text-white mt-0.5">Permenaker 8/2020</div></div>
                 </div>
             </div>
         </div>
     </section>
 
     {{-- Disclaimer --}}
-    <section class="py-10 bg-amber-50/80 border-b border-amber-200">
+    <section class="py-10 bg-safety-soft border-b border-safety-400/40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-start gap-4">
-                <svg class="w-6 h-6 text-amber-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <svg class="w-6 h-6 text-safety-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                <p class="text-sm text-amber-900 leading-relaxed">
-                    <strong>Catatan penting:</strong> Halaman ini adalah portal informasi dan konsultasi program. Penyelenggaraan pelatihan tatap muka, in-house training di kota/kabupaten dalam Provinsi {{ $province['name'] }}, jadwal batch, dan persyaratan administrasi dikoordinasikan secara langsung melalui tim konsultan kami.
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    <strong class="text-navy-950">Catatan penting:</strong> Halaman ini adalah portal informasi dan koordinasi resmi. Penyelenggaraan pembinaan operator di kota/kabupaten dalam Provinsi {{ $province['name'] }}, jadwal batch, dan persyaratan administrasi dikoordinasikan secara langsung melalui tim konsultan kami.
                 </p>
             </div>
         </div>
     </section>
 
-    {{-- Program Links --}}
+    {{-- Program Links: 9 SIO Categories --}}
     <section id="program" class="py-14 sm:py-20 bg-concrete-50 border-b border-concrete-200" aria-labelledby="prov-program-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl mb-12">
-                <span class="text-xs font-bold uppercase tracking-wider text-teal-700 bg-teal-soft px-3 py-1 rounded-full border border-teal-500/20">Layanan Unggulan</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-teal-700 bg-teal-soft px-3.5 py-1 rounded-full border border-teal-500/20">Kategori Layanan SIO</span>
                 <h2 id="prov-program-heading" class="mt-3 text-2xl sm:text-3xl font-extrabold text-navy-950 tracking-tight">
-                    Program Pelatihan &amp; Konsultansi K3 di {{ $province['name'] }}
+                    Program Pelatihan &amp; SIO Alat Berat di {{ $province['name'] }}
                 </h2>
-                <p class="mt-4 text-base text-slate-700">Pilih program pembinaan kompetensi atau jasa konsultansi K3 sesuai kebutuhan organisasi dan industri Anda.</p>
+                <p class="mt-4 text-base text-slate-700">Pilih kategori pesawat angkat &amp; angkut sesuai kebutuhan operasional industri di Provinsi {{ $province['name'] }}.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($programs as $prog)
                 <a href="{{ route('program.show', $prog['slug']) }}" class="group flex flex-col bg-white rounded-xl border border-concrete-200 hover:border-teal-500 hover:shadow-md transition-all overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500">
-                    <div class="h-1.5 {{ ($prog['category'] ?? 'training') === 'training' ? 'bg-teal-600' : 'bg-navy-900' }}"></div>
+                    <div class="h-1.5 bg-teal-600 group-hover:bg-teal-500 transition-colors"></div>
                     <div class="p-6 flex-1 flex flex-col">
-                        <div class="text-xs font-bold uppercase tracking-wider text-teal-700 mb-1">{{ $prog['category_label'] ?? 'Layanan' }}</div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-teal-700 mb-1">{{ $prog['category_label'] ?? 'Layanan SIO' }}</div>
                         <h3 class="text-lg font-bold text-navy-950 mb-2 group-hover:text-teal-700 transition-colors">{{ $prog['title'] }}</h3>
                         <p class="text-xs sm:text-sm text-slate-700 flex-1 leading-relaxed line-clamp-3">{{ $prog['hero_subheading'] }}</p>
                         <div class="mt-4 pt-4 border-t border-concrete-100 text-xs font-bold text-teal-700 flex items-center justify-between">
@@ -99,7 +99,7 @@
             </h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
                 @foreach($province['cities'] as $c)
-                <a href="{{ route('regional.city', $c['slug']) }}" class="block px-3 py-2.5 rounded-lg bg-concrete-50 border border-concrete-200 hover:border-teal-500 hover:bg-teal-soft text-sm font-medium text-navy-900 hover:text-teal-700 transition-colors truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500">
+                <a href="{{ route('regional.city', $c['slug']) }}" class="block px-3.5 py-2.5 rounded-lg bg-concrete-50 border border-concrete-200 hover:border-teal-500 hover:bg-teal-soft text-sm font-medium text-navy-900 hover:text-teal-700 transition-colors truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500">
                     {{ $c['name'] }}
                 </a>
                 @endforeach
@@ -107,58 +107,4 @@
         </div>
     </section>
     @endif
-
-    {{-- FAQ --}}
-    <section id="faq" class="py-14 sm:py-20 bg-concrete-50 border-b border-concrete-200" aria-labelledby="prov-faq-heading">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <span class="text-xs font-bold uppercase tracking-wider text-teal-700 bg-teal-soft px-3 py-1 rounded-full border border-teal-500/20">Tanya Jawab</span>
-                <h2 id="prov-faq-heading" class="mt-3 text-2xl font-extrabold text-navy-950 tracking-tight">FAQ: Layanan K3 di {{ $province['name'] }}</h2>
-            </div>
-            <div class="space-y-4">
-                @foreach([
-                    [
-                        'q' => 'Apakah pelatihan kompetensi K3 dan jasa konsultansi melayani wilayah Provinsi ' . $province['name'] . '?',
-                        'a' => 'Ya, kami melayani konsultasi dan pelaksanaan pelatihan publik daring, pelatihan tatap muka, serta in-house training dan konsultansi SMK3 untuk seluruh kota dan kabupaten di Provinsi ' . $province['name'] . '.',
-                    ],
-                    [
-                        'q' => 'Program apa saja yang tersedia untuk pemenuhan kepatuhan K3?',
-                        'a' => 'Tersedia program pembinaan kompetensi Ahli K3 Umum, K3 Konstruksi, K3 Kimia, K3 Kebakaran, Petugas P3K, serta jasa konsultansi audit SMK3, HIRADC, dan pengukuran lingkungan kerja.',
-                    ],
-                    [
-                        'q' => 'Bagaimana cara mengajukan proposal in-house training K3 di ' . $province['name'] . '?',
-                        'a' => 'Hubungi konsultan kami melalui WhatsApp. Tim kami akan mendiskusikan kebutuhan pelatihan, profil risiko fasilitas kerja, dan menyiapkan proposal penawaran resmi yang disesuaikan.',
-                    ],
-                ] as $faq)
-                <details class="group bg-white rounded-xl border border-concrete-200 p-5 sm:p-6 open:border-teal-500">
-                    <summary class="flex justify-between items-center gap-4 font-bold text-navy-950 cursor-pointer list-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded">
-                        <span>{{ $faq['q'] }}</span>
-                        <span class="w-7 h-7 rounded-full bg-concrete-100 flex items-center justify-center shrink-0 group-open:rotate-180 transition-transform">
-                            <svg class="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-                        </span>
-                    </summary>
-                    <p class="mt-4 pt-4 border-t border-concrete-100 text-sm text-slate-700 leading-relaxed">{{ $faq['a'] }}</p>
-                </details>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    {{-- Final CTA --}}
-    <section class="py-16 sm:py-24 bg-navy-950 text-white" aria-labelledby="prov-cta-heading">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="max-w-3xl mx-auto">
-                <h2 id="prov-cta-heading" class="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight">
-                    Konsultasi Training Ahli K3 Umum<br><span class="text-orange-400">Provinsi {{ $province['name'] }}</span>
-                </h2>
-                <p class="mt-4 text-base text-concrete-300 leading-relaxed">
-                    Hubungi konsultan kami untuk informasi silabus, pendaftaran batch pelatihan K3, atau penjadwalan in-house training dan audit SMK3.
-                </p>
-                <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <x-wa-cta variant="primary" size="lg" :message="$waMessage" label="Konsultasi Sekarang" class="bg-orange-500 hover:bg-orange-600 text-white font-bold shadow-lg" />
-                    <x-button :href="route('home')" variant="outline" size="lg" class="text-white border-concrete-300 hover:bg-navy-900">Kembali ke Beranda</x-button>
-                </div>
-            </div>
-        </div>
-    </section>
 @endsection

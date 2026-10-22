@@ -19,10 +19,10 @@ class PublicArticleTest extends TestCase
     private function publishedArticle(array $overrides = []): Article
     {
         return Article::create(array_merge([
-            'title'        => 'Penerapan SMKK dalam Proyek Konstruksi',
-            'slug'         => 'penerapan-smkk-proyek-konstruksi',
-            'excerpt'      => 'Sistem Manajemen Keselamatan Konstruksi wajib diterapkan.',
-            'content'      => '<p>Konten artikel edukasi K3 Konstruksi.</p>',
+            'title'        => 'Pemeriksaan Harian (P2H) Excavator sebelum Operasi',
+            'slug'         => 'pemeriksaan-harian-p2h-excavator',
+            'excerpt'      => 'Panduan pemeriksaan pra-operasi untuk operator alat berat.',
+            'content'      => '<p>Konten artikel edukasi keselamatan alat berat.</p>',
             'status'       => 'published',
             'published_at' => now()->subDay(),
         ], $overrides));
@@ -31,8 +31,8 @@ class PublicArticleTest extends TestCase
     private function draftArticle(array $overrides = []): Article
     {
         return Article::create(array_merge([
-            'title'   => 'Draft: RKK Proyek Jembatan',
-            'slug'    => 'draft-rkk-proyek-jembatan',
+            'title'   => 'Draft: Prosedur Tipping Dump Truck yang Aman',
+            'slug'    => 'draft-prosedur-tipping-dump-truck',
             'content' => '<p>Draft tidak boleh terlihat publik.</p>',
             'status'  => 'draft',
         ], $overrides));
@@ -69,8 +69,13 @@ class PublicArticleTest extends TestCase
     {
         $response = $this->get(route('articles.index'));
         $response->assertOk();
-        $response->assertSee(route('program.show', 'training-ahli-k3-umum'));
-        $response->assertSee(route('program.show', 'training-k3-konstruksi'));
+
+        foreach (config('programs', []) as $slug => $program) {
+            $response->assertSee(route('program.show', $slug), false);
+            $response->assertSee($program['title']);
+        }
+
+        $response->assertDontSee(route('program.show', 'training-ahli-k3-umum'), false);
     }
 
     // ─── Show Tests ───────────────────────────────────────────────────────────
@@ -101,14 +106,14 @@ class PublicArticleTest extends TestCase
     public function test_article_show_contains_seo_metadata(): void
     {
         $article = $this->publishedArticle([
-            'seo_title'        => 'SEO Title K3 Konstruksi Khusus',
-            'meta_description' => 'Deskripsi meta khusus artikel K3.',
+            'seo_title'        => 'SEO Title SIO Excavator Khusus',
+            'meta_description' => 'Deskripsi meta khusus artikel alat berat.',
         ]);
 
         $response = $this->get(route('articles.show', $article->slug));
         $response->assertOk();
-        $response->assertSee('SEO Title K3 Konstruksi Khusus');
-        $response->assertSee('Deskripsi meta khusus artikel K3.');
+        $response->assertSee('SEO Title SIO Excavator Khusus');
+        $response->assertSee('Deskripsi meta khusus artikel alat berat.');
     }
 
     public function test_article_show_contains_breadcrumbs(): void
@@ -126,14 +131,14 @@ class PublicArticleTest extends TestCase
     {
         $article = $this->publishedArticle([
             'faqs' => [
-                ['q' => 'Apa itu K3 Konstruksi Muda?', 'a' => 'Sertifikasi tingkat dasar untuk pekerja konstruksi.'],
+                ['q' => 'Apa itu SIO Excavator?', 'a' => 'Lisensi K3 untuk operator excavator sesuai regulasi Kemnaker RI.'],
             ],
         ]);
 
         $response = $this->get(route('articles.show', $article->slug));
         $response->assertOk();
         $response->assertSee('Pertanyaan Umum');
-        $response->assertSee('Apa itu K3 Konstruksi Muda?');
+        $response->assertSee('Apa itu SIO Excavator?');
     }
 
     public function test_article_show_does_not_leak_image_brief(): void
@@ -141,8 +146,8 @@ class PublicArticleTest extends TestCase
         $article = $this->publishedArticle([
             'image_brief' => [
                 'concept'         => 'Secret AI concept brief here',
-                'english_prompt'  => 'Construction workers in safety helmets, photorealistic',
-                'recommended_alt' => 'Workers in K3 gear',
+                'english_prompt'  => 'Excavator operators in safety helmets, photorealistic',
+                'recommended_alt' => 'Operators in safety gear',
             ],
         ]);
 
@@ -152,13 +157,22 @@ class PublicArticleTest extends TestCase
         $response->assertDontSee('english_prompt');
     }
 
-    public function test_article_show_contains_whatsapp_cta(): void
+    public function test_article_show_whatsapp_cta_uses_configured_phone(): void
     {
+        config(['services.whatsapp.phone' => '081200000001']);
+        config(['services.whatsapp.default_message' => 'Halo, saya ingin konsultasi mengenai Training Alat Berat dan SIO.']);
+
         $article = $this->publishedArticle();
 
         $response = $this->get(route('articles.show', $article->slug));
         $response->assertOk();
+
+        $normalizedPhone = \App\Support\WhatsApp::normalizePhone(config('services.whatsapp.phone'));
+        $expectedUrl = 'https://wa.me/' . $normalizedPhone . '?text=' . rawurlencode(config('services.whatsapp.default_message'));
+
+        $response->assertSee($expectedUrl, false);
         $response->assertSee('wa.me', false);
+        $response->assertDontSee('6281299887766', false);
     }
 
     public function test_article_show_contains_article_schema(): void

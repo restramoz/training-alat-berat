@@ -18,11 +18,11 @@
   @endif
   "author": {
     "@type": "Organization",
-    "name": "Tim Ahli K3 & Ahli K3 Umum"
+    "name": "Tim Instruktur Alat Berat & SIO"
   },
   "publisher": {
     "@type": "Organization",
-    "name": "{{ config('app.name', 'Training Ahli K3 Umum') }}",
+    "name": "{{ config('app.name', 'Training Alat Berat') }}",
     "url": "{{ url('/') }}"
   }
 }
@@ -52,18 +52,18 @@
 
 @section('content')
 {{-- Breadcrumbs --}}
-<nav class="bg-white border-b border-concrete-200 py-3 text-xs text-concrete-500" aria-label="Breadcrumb">
+<nav class="bg-white border-b border-concrete-200 py-3 text-xs text-slate-500" aria-label="Breadcrumb">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <ol class="flex items-center flex-wrap gap-x-2 gap-y-1" itemscope itemtype="https://schema.org/BreadcrumbList">
             <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <a href="{{ route('home') }}" class="hover:text-navy-950 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-500 rounded" itemprop="item">
+                <a href="{{ route('home') }}" class="hover:text-navy-950 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-teal-500 rounded" itemprop="item">
                     <span itemprop="name">Beranda</span>
                 </a>
                 <meta itemprop="position" content="1">
             </li>
             <li aria-hidden="true" class="text-concrete-300">/</li>
             <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <a href="{{ route('articles.index') }}" class="hover:text-navy-950 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-500 rounded" itemprop="item">
+                <a href="{{ route('articles.index') }}" class="hover:text-navy-950 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-teal-500 rounded" itemprop="item">
                     <span itemprop="name">Artikel</span>
                 </a>
                 <meta itemprop="position" content="2">
@@ -79,13 +79,13 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <header class="space-y-5 mb-8">
             <div class="flex items-center gap-2 flex-wrap">
-                <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-700 border border-emerald-300 uppercase tracking-wider">
-                    K3 &amp; Ahli K3 Umum
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-teal-soft text-teal-700 border border-teal-500/30 uppercase tracking-wider">
+                    Kompetensi Alat Berat &amp; SIO
                 </span>
                 @if($targetCity)
                     <a
                         href="{{ route('regional.city', $targetCity['slug']) }}"
-                        class="px-3 py-1 rounded-full text-xs font-bold bg-navy-50 text-navy-700 hover:text-emerald-700 border border-navy-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                        class="px-3 py-1 rounded-full text-xs font-bold bg-teal-soft text-teal-700 hover:text-teal-600 border border-teal-500/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
                     >
                         Wilayah {{ $targetCity['name'] }}
                     </a>
@@ -96,16 +96,16 @@
                 {{ $article->title }}
             </h1>
 
-            <div class="flex flex-wrap items-center gap-3 text-xs text-concrete-500 border-b border-concrete-200 pb-5">
+            <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500 border-b border-concrete-200 pb-5">
                 <time datetime="{{ ($article->published_at ?? $article->created_at)->toDateString() }}">
-                    Diterbitkan: <strong class="text-concrete-700">{{ ($article->published_at ?? $article->created_at)->format('d F Y') }}</strong>
+                    Diterbitkan: <strong class="text-slate-900">{{ ($article->published_at ?? $article->created_at)->format('d F Y') }}</strong>
                 </time>
-                <span aria-hidden="true">&bull;</span>
-                <span>Oleh: <strong class="text-concrete-700">Tim Ahli K3</strong></span>
+                <span aria-hidden="true" class="text-concrete-300">&bull;</span>
+                <span>Oleh: <strong class="text-slate-900">Instruktur &amp; Spesialis Alat Berat</strong></span>
             </div>
 
             @if($article->excerpt)
-                <p class="text-sm sm:text-base text-navy-950 leading-relaxed bg-concrete-50 p-5 rounded-xl border-l-4 border-emerald-500">
+                <p class="text-sm sm:text-base text-slate-900 leading-relaxed bg-concrete-50 p-5 rounded-xl border-l-4 border-teal-600">
                     {{ $article->excerpt }}
                 </p>
             @endif
@@ -129,6 +129,26 @@
                 max-width: 100%;
                 min-width: 0;
                 overflow-wrap: anywhere;
+                color: #1a3a43;
+            }
+            .article-content h1, .article-content h2, .article-content h3, .article-content h4 {
+                color: #09637e;
+                font-weight: 800;
+            }
+            .article-content p, .article-content li {
+                color: #1a3a43;
+                line-height: 1.75;
+            }
+            .article-content a {
+                color: #088395;
+                text-decoration: underline;
+            }
+            .article-content blockquote {
+                border-left: 4px solid #088395;
+                background-color: #ebf4f6;
+                padding: 1rem;
+                border-radius: 0 0.75rem 0.75rem 0;
+                color: #1a3a43;
             }
             .article-content .article-table-scroll {
                 display: block;
@@ -149,29 +169,33 @@
             .article-content .article-table-scroll th,
             .article-content .article-table-scroll td {
                 border: 1px solid #a8d0d0;
-                padding: 8px 10px;
+                padding: 10px 12px;
                 text-align: left;
                 vertical-align: top;
                 white-space: normal;
                 overflow-wrap: anywhere;
+                color: #1a3a43;
             }
             .article-content .article-table-scroll th {
                 background: #ebf4f6;
                 font-weight: 700;
             }
+            .article-content .article-table-scroll td {
+                background: #ffffff;
+            }
+            /* Compatibility for stored article bodies written with the previous palette. */
+            .article-content .bg-\[\#481E14\] { background-color: #ebf4f6; }
+            .article-content .bg-\[\#0C0C0C\] { background-color: #ffffff; }
+            .article-content .bg-\[\#F2613F\] { background-color: #7ab2b2; color: #042a37; }
+            .article-content .text-\[\#F2613F\] { color: #09637e; }
+            .article-content .hover\:text-\[\#F2613F\]:hover { color: #088395; }
+            .article-content .text-\[\#0C0C0C\] { color: #042a37; }
+            .article-content .border-\[\#9B3922\] { border-color: #a8d0d0; }
+            .article-content .hover\:bg-\[\#9B3922\]:hover { background-color: #5a9494; }
         </style>
 
         {{-- Main Content (sanitized on write, safe to render) --}}
-        <div class="article-content prose prose-slate max-w-none text-sm sm:text-base leading-relaxed
-                    prose-headings:font-bold prose-headings:text-navy-950
-                    prose-h2:text-xl prose-h2:mt-8 prose-h3:text-lg prose-h3:mt-6
-                    prose-a:text-emerald-700 prose-a:no-underline hover:prose-a:underline
-                    prose-strong:text-navy-900
-                    prose-blockquote:border-emerald-500 prose-blockquote:bg-emerald-soft/30 prose-blockquote:rounded-r-xl prose-blockquote:py-1
-                    prose-ul:space-y-1 prose-ol:space-y-1
-                    prose-table:w-full prose-table:border-collapse prose-table:text-sm
-                    prose-th:border prose-th:border-concrete-300 prose-th:bg-concrete-100 prose-th:px-3 prose-th:py-2 prose-th:text-left
-                    prose-td:border prose-td:border-concrete-300 prose-td:px-3 prose-td:py-2 prose-td:align-top">
+        <div class="article-content space-y-6 text-sm sm:text-base leading-relaxed">
             {!! $article->content !!}
         </div>
 
@@ -198,13 +222,13 @@
                             class="group bg-concrete-50 border border-concrete-200 rounded-xl overflow-hidden"
                             @if($loop->first) open @endif
                         >
-                            <summary class="flex items-center justify-between px-5 py-4 font-bold text-sm text-navy-950 cursor-pointer select-none list-none hover:bg-concrete-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-500">
+                            <summary class="flex items-center justify-between px-5 py-4 font-bold text-sm text-navy-950 cursor-pointer select-none list-none hover:bg-concrete-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-teal-500">
                                 <span>{{ $faq['q'] ?? '' }}</span>
-                                <svg class="w-4 h-4 text-concrete-400 shrink-0 ml-3 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <svg class="w-4 h-4 text-slate-500 shrink-0 ml-3 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </summary>
-                            <div class="px-5 pb-5 pt-2 text-sm text-concrete-700 leading-relaxed">
+                            <div class="px-5 pb-5 pt-2 text-sm text-slate-700 leading-relaxed border-t border-concrete-200">
                                 {{ $faq['a'] ?? '' }}
                             </div>
                         </details>
@@ -215,18 +239,18 @@
 
         {{-- Consultation CTA --}}
         <div class="mt-12 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-navy-950 to-navy-900 text-white space-y-4">
-            <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[11px] font-bold uppercase tracking-wider border border-emerald-500/30">
-                LAYANAN PENGELOLAAN ahli k3 umum &amp; K3
+            <span class="inline-block px-3 py-1 rounded-full bg-white/10 text-teal-400 text-xs font-bold uppercase tracking-wider border border-teal-500/30">
+                LAYANAN TRAINING ALAT BERAT &amp; SIO
             </span>
             <h3 class="font-extrabold text-xl sm:text-2xl text-white">
-                Konsultasikan Kepatuhan Fasilitas K3 Anda
+                Konsultasikan Pelatihan &amp; Uji Kompetensi SIO Operator Anda
             </h3>
             <p class="text-sm text-concrete-300 leading-relaxed max-w-2xl">
-                Informasi lebih lanjut mengenai Training Ahli K3 Umum tersedia melalui konsultasi.
+                Dapatkan informasi silabus pelatihan alat berat, persiapan uji sertifikasi BNSP / Kemnaker, dan persyaratan penerbitan SIO resmi.
             </p>
             <div class="pt-2 flex flex-wrap gap-3">
-                <x-wa-cta variant="primary" size="md" label="Konsultasi Program Sekarang" class="bg-emerald-600 hover:bg-emerald-500 text-white shadow-md" />
-                <a href="{{ route('articles.index') }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/20 text-white hover:bg-white/10 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500">
+                <x-wa-cta variant="primary" label="Konsultasi Program Sekarang" />
+                <a href="{{ route('articles.index') }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/20 text-white hover:bg-white/10 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500">
                     &larr; Lihat Artikel Lainnya
                 </a>
             </div>
@@ -239,27 +263,27 @@
 <section class="py-12 bg-concrete-50 border-t border-concrete-200" aria-label="Artikel terkait">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="font-extrabold text-xl text-navy-950 mb-6">
-            Artikel K3 &amp; Ahli K3 Umum Lainnya
+            Artikel Pelatihan &amp; SIO Alat Berat Lainnya
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach($relatedArticles as $rel)
-                <article class="bg-white rounded-2xl border border-concrete-200 p-5 space-y-2.5 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-emerald-500 transition-all">
+                <article class="bg-white rounded-2xl border border-concrete-200 p-5 space-y-2.5 flex flex-col justify-between shadow-sm hover:border-teal-500 transition-all">
                     <div>
-                        <time class="text-[10px] text-concrete-400 block" datetime="{{ ($rel->published_at ?? $rel->created_at)->toDateString() }}">
+                        <time class="text-xs text-slate-500 block" datetime="{{ ($rel->published_at ?? $rel->created_at)->toDateString() }}">
                             {{ ($rel->published_at ?? $rel->created_at)->format('d M Y') }}
                         </time>
-                        <h3 class="font-bold text-sm text-navy-950 hover:text-emerald-700 line-clamp-2 mt-1 transition-colors">
-                            <a href="{{ route('articles.show', $rel->slug) }}" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded">
+                        <h3 class="font-bold text-sm text-navy-950 hover:text-teal-700 line-clamp-2 mt-1 transition-colors">
+                            <a href="{{ route('articles.show', $rel->slug) }}" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded">
                                 {{ $rel->title }}
                             </a>
                         </h3>
                         @if($rel->excerpt)
-                            <p class="text-xs text-concrete-500 line-clamp-2 mt-1">
+                            <p class="text-xs text-slate-700 line-clamp-2 mt-1">
                                 {{ $rel->excerpt }}
                             </p>
                         @endif
                     </div>
-                    <a href="{{ route('articles.show', $rel->slug) }}" class="text-xs font-bold text-emerald-700 hover:text-emerald-800 pt-2 inline-flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded">
+                    <a href="{{ route('articles.show', $rel->slug) }}" class="text-xs font-bold text-teal-700 hover:text-teal-600 pt-2 inline-flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded">
                         <span>Baca Artikel &rarr;</span>
                     </a>
                 </article>

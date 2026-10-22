@@ -15,7 +15,21 @@ class ProgramController extends Controller
         $programs = config('programs', []);
 
         if (! isset($programs[$slug])) {
-            abort(404, 'Layanan atau program pelatihan tidak ditemukan.');
+            $aliasMap = [
+                'excavator'    => 'sio-excavator',
+                'wheel-loader' => 'sio-wheel-loader',
+                'bulldozer'    => 'sio-bulldozer',
+                'compactor'    => 'sio-compactor',
+                'motor-grader' => 'sio-motor-grader',
+                'rig-drilling' => 'sio-rig-drilling',
+                'telehandler'  => 'sio-telehandler',
+                'vibro'        => 'sio-vibro',
+                'dump-truck'   => 'sio-dump-truck',
+            ];
+            $slug = $aliasMap[$slug] ?? null;
+            if ($slug === null || ! isset($programs[$slug])) {
+                abort(404, 'Layanan atau program pelatihan tidak ditemukan.');
+            }
         }
 
         $program = $programs[$slug];
@@ -38,7 +52,7 @@ class ProgramController extends Controller
      * Display a city-specific service detail page preserving regional context.
      *
      * @param string $city      Slug of the city/regency (e.g. "bandung", "kab-bekasi")
-     * @param string $program   Service identifier (e.g. "training-plb3", "jasa-pertek-K3")
+     * @param string $program   Program identifier (e.g. "sio-excavator", "sio-dump-truck")
      */
     public function cityProgram(string $city, string $program, RegionalService $regional): View
     {
@@ -53,20 +67,15 @@ class ProgramController extends Controller
         // Fallback mapping for regional program aliases
         if ($configKey === null) {
             $aliasMap = [
-                'ahli-k3-umum'        => 'training-ahli-k3-umum',
-                'k3-umum'             => 'training-ahli-k3-umum',
-                'muda'                => 'training-ahli-k3-umum',
-                'k3-konstruksi'       => 'training-k3-konstruksi',
-                'k3-konstruksi-muda'  => 'training-k3-konstruksi',
-                'k3-konstruksi-madya' => 'training-k3-konstruksi',
-                'k3-konstruksi-utama' => 'training-k3-konstruksi',
-                'madya'               => 'training-k3-konstruksi',
-                'k3-kimia'            => 'training-k3-kimia',
-                'k3-kebakaran'        => 'training-k3-kebakaran',
-                'p3k'                 => 'training-p3k-di-tempat-kerja',
-                'smk3'                => 'jasa-audit-smk3',
-                'utama'               => 'jasa-audit-smk3',
-                'hiradc'              => 'jasa-identifikasi-bahaya-hiradc',
+                'excavator'    => 'sio-excavator',
+                'wheel-loader' => 'sio-wheel-loader',
+                'bulldozer'    => 'sio-bulldozer',
+                'compactor'    => 'sio-compactor',
+                'motor-grader' => 'sio-motor-grader',
+                'rig-drilling' => 'sio-rig-drilling',
+                'telehandler'  => 'sio-telehandler',
+                'vibro'        => 'sio-vibro',
+                'dump-truck'   => 'sio-dump-truck',
             ];
             $configKey = $aliasMap[$program] ?? null;
         }

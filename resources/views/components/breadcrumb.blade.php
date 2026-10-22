@@ -5,7 +5,7 @@
 <nav aria-label="Breadcrumb" class="py-3 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
     <ol class="flex items-center flex-wrap gap-2 text-xs sm:text-sm text-concrete-300" itemscope itemtype="https://schema.org/BreadcrumbList">
         <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a href="{{ route('home') }}" class="hover:text-safety-400 transition-colors inline-flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-safety-500 rounded py-0.5" itemprop="item">
+            <a href="{{ route('home') }}" class="hover:text-teal-400 transition-colors inline-flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 rounded py-0.5" itemprop="item">
                 <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                 </svg>
@@ -20,7 +20,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
                 @if (!empty($item['url']) && !$loop->last)
-                    <a href="{{ $item['url'] }}" class="hover:text-safety-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-safety-500 rounded py-0.5" itemprop="item">
+                    <a href="{{ $item['url'] }}" class="hover:text-teal-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 rounded py-0.5" itemprop="item">
                         <span itemprop="name">{{ $item['label'] }}</span>
                     </a>
                 @elseif ($loop->last)
@@ -28,7 +28,7 @@
                         {{ $item['label'] }}
                     </span>
                 @else
-                    <span class="text-concrete-400 truncate max-w-[240px] sm:max-w-none" itemprop="name">
+                    <span class="text-concrete-300 truncate max-w-[240px] sm:max-w-none" itemprop="name">
                         {{ $item['label'] }}
                     </span>
                 @endif
